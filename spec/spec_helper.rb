@@ -1,6 +1,9 @@
 require "bundler/setup"
 require "line_message_creator"
 
+LineMessageCreator::LINE_MESSAGE_DIR = Pathname.new(__dir__).join('fixtures')
+LineMessageCreator::HELPER_DIR       = LineMessageCreator::LINE_MESSAGE_DIR.join('helpers')
+
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = ".rspec_status"
