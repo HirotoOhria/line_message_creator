@@ -7,11 +7,41 @@ RSpec.describe LineMessageCreator do
 
     subject(:create_from) { LineMessageCreator.create_from(*file_names, **locals) }
 
+    describe '@line_message_dir' do
+      context '初期していない時' do
+        around(:example) do |example|
+          current_value = LineMessageCreator.line_message_dir
+          LineMessageCreator.line_message_dir = nil
+          example.run
+          LineMessageCreator.line_message_dir = current_value
+        end
+
+        it 'TypeErrorを発生させること' do
+          expect { create_from }.to raise_error(TypeError, "Set LineMessageCreator.line_message_dir= e.g. Rails.root.join('app/line_messages').")
+        end
+      end
+    end
+
+    describe '@helper_dir' do
+      context '初期していない時' do
+        around(:example) do |example|
+          current_value = LineMessageCreator.helper_dir
+          LineMessageCreator.helper_dir = nil
+          example.run
+          LineMessageCreator.helper_dir = current_value
+        end
+
+        it 'TypeErrorを発生させること' do
+          expect { create_from }.to raise_error(TypeError, "Set LineMessageCreator.helper_dir= e.g. Rails.root.join('app/line_messages/helpers').")
+        end
+      end
+    end
+
     context '存在しないファイルを指定した時' do
       let(:file_names) { 'hoge' }
 
       it 'LoadErrorを発生させること' do
-        expect { create_from }.to raise_error(LoadError, "No such file '#{file_names}'.")
+        expect { create_from }.to raise_error(LoadError, "No such file '#{LineMessageCreator.line_message_dir.join("**/#{file_names}.*")}' .")
       end
     end
 
@@ -56,7 +86,7 @@ RSpec.describe LineMessageCreator do
 
       context 'テキストメッセージファイルを指定しない時' do
         it 'LoadErrorを発生させること' do
-          expect { create_from }.to raise_error(LoadError, 'Please specify a text message file.')
+          expect { create_from }.to raise_error(ArgumentError, 'Specify a text message file.')
         end
       end
 
