@@ -2,7 +2,7 @@
 
 ## Overview
 
-Are you japanese? => [Japanese README](https://github.com/HirotoOhria/line_message_creator/blob/master/README.md)
+Are you japanese? => [Japanese README](https://github.com/HirotoOhria/line_message_creator/blob/master/README.ja.md)
 
 LineMessageCreator is a View-like line for Rails Message Creation Tool.
 It allows you to create messages for LINE Messaging API easily.
